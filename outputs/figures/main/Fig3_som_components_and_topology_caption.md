@@ -1,0 +1,1 @@
+SOM component planes and ensemble topology diagnostics. (A) Prototype values for the representative model chosen only from quantization error, topographic error and neighbourhood preservation; colours show standardised transformed values clipped at ±3 for display, not water-quality classes. (B) Distributions across 50 seeds for each of five prespecified hexagonal grids.

@@ -1,0 +1,6 @@
+﻿"Analysis","n","SOM models","ARI to ensemble consensus, median (95% interval)","ARI to primary SOM consensus","Sample support, median","Assignment entropy, median"
+"Field chemistry (4 variables)",440,50,"0.42 (0.08–0.98)",0.14,0.79,0.84
+"Nutrients (4 variables)",459,50,"0.22 (-0.01–0.89)",0.19,0.69,0.5
+"Chl-a + nutrients (5 variables)",439,50,"0.19 (-0.01–0.96)",0.33,0.69,0.58
+"Untransformed primary matrix",391,50,"0.71 (0.26–0.95)",0.19,0.9,0.71
+"Native missing-distance SOM",454,50,"0.46 (0.12–0.89)",0.94,0.83,0.82

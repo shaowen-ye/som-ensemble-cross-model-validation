@@ -1,0 +1,13 @@
+variable,description,unit
+event_id,Pseudonymized identifier for one surface sampling event,none
+campaign,Monitoring campaign used for grouped validation and transfer analysis,none
+block_id,Pseudonymized site-within-campaign resampling block,none
+pH,pH,unitless
+WT_C,Water temperature,degrees C
+DO_mgL,Dissolved oxygen,mg L-1
+Cond_uScm,Electrical conductivity,microS cm-1
+Chla_ugL,Chlorophyll-a,microg L-1
+TN_mgL,Total nitrogen,mg L-1
+NO3_mgL,Nitrate nitrogen,mg L-1
+TP_mgL,Total phosphorus,mg L-1
+SRP_mgL,Soluble reactive phosphorus,mg L-1

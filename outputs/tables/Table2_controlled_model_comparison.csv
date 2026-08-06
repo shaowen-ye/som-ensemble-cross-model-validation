@@ -1,0 +1,5 @@
+﻿"Method","Representation","Fitting","Prediction","Shared evaluation"
+"SOM","Hexagonal SOM codebook","Five grids × 50 seeds; 1000 online iterations","Nearest codebook unit, then codebook partition","Same transformed variables, k=2–8 and grouped resampling indices"
+"K-means","Euclidean centroids","50 starts; 200 maximum iterations","Nearest training centroid","Same transformed variables, k=2–8 and grouped resampling indices"
+"Ward.D2","Ward.D2 hierarchy","Agglomerative Ward.D2 linkage","Nearest centroid of training-tree groups","Same transformed variables, k=2–8 and grouped resampling indices"
+"GMM","Gaussian mixture","Covariance model selected by BIC within training data","Maximum posterior probability","Same transformed variables, k=2–8 and grouped resampling indices"

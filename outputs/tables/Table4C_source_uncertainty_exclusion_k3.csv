@@ -1,0 +1,5 @@
+﻿"Method","n","ARI to primary consensus","AMI to primary consensus"
+"SOM",375,0.8,0.73
+"K-means",375,0.96,0.95
+"Ward.D2",375,0.95,0.92
+"GMM",375,0.93,0.9

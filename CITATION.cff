@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Please cite the associated manuscript and this repository if you use the data or code."
+title: "SOM ensemble and cross-model validation for environmental monitoring data"
+type: software
+authors:
+  - family-names: Ye
+    given-names: Shaowen
+version: 1.0.0
+date-released: 2026-08-06
+repository-code: "https://github.com/Shaowen-Ye/som-ensemble-cross-model-validation"
+license: MIT
+keywords:
+  - self-organizing map
+  - cluster stability
+  - environmental monitoring
+  - cross-model validation
+  - reproducible research
