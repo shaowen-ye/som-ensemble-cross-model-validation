@@ -13,11 +13,9 @@ The workflow evaluates whether self-organizing map (SOM) structures persist acro
 - `data/data_dictionary.csv`: variable descriptions and units.
 - `R/`: data preparation, SOM ensemble, cross-model validation, transfer, sensitivity, figure, and table scripts.
 - `run_all.R`: single entry point for the complete analysis.
-- `outputs/figures/`: manuscript Figs. 3–6 and supplementary figures.
-- `outputs/tables/`: core statistical tables generated directly from the analyses.
+- `outputs/figures/`: associated analytical figures.
+- `outputs/tables/`: key statistical tables generated directly from the analyses.
 - `outputs/results/sessionInfo.txt`: R session information from the validated release run.
-
-Figs. 1–2, the graphical abstract, and their production assets are outside the scope of this repository. The public data therefore contain no coordinates or map-source files.
 
 ## Analysis design
 
@@ -32,7 +30,7 @@ The public workflow includes:
 5. 200 grouped resamples using the same training blocks for all four model families;
 6. consensus support, entropy, ARI, AMI, clusterwise Jaccard, and auxiliary internal indices;
 7. leave-one-campaign-out transfer and prespecified sensitivity analyses;
-8. scripted generation of Figs. 3–6, supplementary figures, and core statistical tables.
+8. scripted generation of associated analytical figures and key statistical tables.
 
 Transformations and scaling in resampling and transfer analyses are estimated from training observations only.
 
