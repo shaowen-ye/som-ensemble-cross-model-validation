@@ -1,3 +1,4 @@
+# Recreate manuscript Figs. 3-6 and the analytical supplementary figures.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -11,6 +12,7 @@ transfer <- readRDS(file.path(MODEL_DIR, "campaign_transfer.rds"))
 sensitivity <- readRDS(file.path(MODEL_DIR, "sensitivity_ensembles.rds"))
 gradient <- readRDS(file.path(MODEL_DIR, "continuous_gradient_robustness.rds"))
 
+# Use colour-blind-friendly palettes with line and symbol redundancy.
 method_colours <- c("SOM" = "#0072B2", "K-means" = "#E69F00", "Ward.D2" = "#009E73", "GMM" = "#CC79A7")
 campaign_colours <- c("2012-2013" = "#0072B2", "2017-2018" = "#E69F00", "2020-2021" = "#009E73", "2024-2025" = "#D55E00")
 campaign_linetypes <- c("2012-2013" = "solid", "2017-2018" = "dashed", "2020-2021" = "dotdash", "2024-2025" = "dotted")
@@ -27,6 +29,7 @@ base_theme <- theme_bw(base_family = "Helvetica", base_size = 8) +
     plot.tag = element_text(face = "bold", size = 10)
   )
 
+# Export each analytical figure in vector, print and review formats.
 save_multiformat <- function(plot, stem, width_mm = 180, height_mm = 120, directory = FIG_MAIN_DIR) {
   ggsave(file.path(directory, paste0(stem, ".pdf")), plot, width = width_mm, height = height_mm,
          units = "mm", device = grDevices::pdf, useDingbats = FALSE)

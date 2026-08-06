@@ -1,3 +1,4 @@
+# Test SOM robustness to feature modules, missingness and campaign exclusion.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -8,6 +9,7 @@ resampling_file <- Sys.getenv("EI_RESAMPLING_FILE", unset = file.path(MODEL_DIR,
 if (!file.exists(resampling_file)) stop("Resampling result is unavailable")
 resampling <- readRDS(resampling_file)
 
+# Refit the same grid-seed ensemble for each prespecified sensitivity dataset.
 fit_som_sensitivity_ensemble <- function(data, vars, log_vars, name, allow_partial = FALSE) {
   transform <- transform_fit(data, vars = vars, log_vars = log_vars)
   x <- transform_apply(data, transform)
@@ -77,6 +79,7 @@ fit_som_sensitivity_ensemble <- function(data, vars, log_vars, name, allow_parti
   )
 }
 
+# Evaluate field, nutrient, nutrient-plus-chlorophyll and partial-data modules.
 module_results <- list(
   field4 = fit_som_sensitivity_ensemble(prepared$cohorts$field4, FIELD_VARS, character(), "field4", FALSE),
   nutrient4 = fit_som_sensitivity_ensemble(prepared$cohorts$nutrient4, NUTRIENT_VARS, NUTRIENT_VARS, "nutrient4", FALSE),
@@ -86,6 +89,7 @@ module_results <- list(
 )
 message("Completed five SOM sensitivity ensembles")
 
+# Repeat the comparison after excluding the latest monitoring campaign.
 data <- prepared$cohorts$core9
 keep <- data$campaign != "2024-2025"
 reduced <- data[keep, , drop = FALSE]
@@ -126,6 +130,7 @@ for (k in K_VALUES) {
   }
 }
 
+# Retain assignments, agreement summaries and any model failures.
 sensitivity <- list(
   modules = module_results,
   module_summary = bind_rows(lapply(module_results, `[[`, "summary")),

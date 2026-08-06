@@ -1,3 +1,4 @@
+# Fit the prespecified 250-model SOM ensemble and derive consensus partitions.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -14,6 +15,7 @@ models <- vector("list", n_models)
 assignments <- setNames(lapply(K_VALUES, function(k) matrix(NA_integer_, nrow(x), n_models)), paste0("k", K_VALUES))
 model_names <- character(n_models)
 
+# Train five hexagonal grids across 50 fixed random seeds.
 counter <- 0L
 for (g in seq_len(nrow(GRIDS))) {
   for (seed in SOM_SEEDS) {
@@ -49,6 +51,7 @@ for (g in seq_len(nrow(GRIDS))) {
 metrics <- bind_rows(metrics)
 for (key in names(assignments)) colnames(assignments[[key]]) <- model_names
 
+# Summarise partition agreement for every candidate k from 2 to 8.
 consensus <- list()
 sample_rows <- list()
 model_agreement <- list()
@@ -90,6 +93,7 @@ metrics <- metrics %>%
     rank_np = rank(-neighbour_preservation_10, ties.method = "average"),
     topology_rank_sum = rank_qe + rank_te + rank_np
   )
+# Select one representative map using topology diagnostics, not cluster validity.
 representative_index <- which.min(metrics$topology_rank_sum)
 
 ensemble <- list(
@@ -106,6 +110,7 @@ ensemble <- list(
 )
 
 save_rds_safe(ensemble, file.path(MODEL_DIR, "som_ensemble_250.rds"))
+# Save the complete ensemble object and manuscript-supporting tables.
 write_csv_safe(metrics, file.path(TABLE_DIR, "TableS_som_ensemble_metrics.csv"))
 write_csv_safe(model_agreement, file.path(TABLE_DIR, "TableS_som_model_consensus_agreement.csv"))
 write_csv_safe(ensemble$pairwise_ari, file.path(TABLE_DIR, "TableS_som_pairwise_ari.csv"))

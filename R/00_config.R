@@ -1,3 +1,4 @@
+# Shared packages, paths, analysis settings and safe output helpers.
 suppressPackageStartupMessages({
   library(readr)
   library(dplyr)
@@ -8,6 +9,7 @@ suppressPackageStartupMessages({
   library(mclust)
 })
 
+# Resolve the current script path for command-line and sourced execution.
 script_path <- function() {
   args <- commandArgs(trailingOnly = FALSE)
   hit <- grep("^--file=", args, value = TRUE)
@@ -27,6 +29,7 @@ script_path <- function() {
   normalizePath(getwd(), mustWork = TRUE)
 }
 
+# Use repository-relative paths so the workflow is portable after cloning.
 ANALYSIS_DIR <- dirname(script_path())
 REPO_ROOT <- dirname(ANALYSIS_DIR)
 DATA_FILE <- file.path(REPO_ROOT, "data", "analysis_events.csv")
@@ -42,6 +45,7 @@ invisible(lapply(
   dir.create, recursive = TRUE, showWarnings = FALSE
 ))
 
+# Define the common feature space and prespecified variable modules.
 VARS <- c(
   "pH", "WT_C", "DO_mgL", "Cond_uScm", "Chla_ugL",
   "TN_mgL", "NO3_mgL", "TP_mgL", "SRP_mgL"
@@ -56,6 +60,7 @@ GRIDS <- data.frame(
   xdim = c(5L, 7L, 8L, 10L, 12L),
   ydim = c(5L, 5L, 6L, 7L, 8L)
 )
+# Fix the model grids, random seeds and resampling budget used in the manuscript.
 SOM_SEEDS <- 1101:1150
 SOM_RLEN <- 1000L
 N_RESAMPLE <- 200L
@@ -63,6 +68,7 @@ RESAMPLE_FRACTION <- 0.80
 RESAMPLE_SEEDS <- 71001 + seq_len(N_RESAMPLE)
 TRANSFER_SEEDS <- 81001:81010
 
+# Guard against accidental changes in the released analytical cohorts.
 EXPECTED_COUNTS <- c(
   all_surface = 514L,
   core9 = 391L,
@@ -72,6 +78,7 @@ EXPECTED_COUNTS <- c(
   partial5 = 454L
 )
 
+# Create parent directories before writing reproducible outputs.
 write_csv_safe <- function(x, path) {
   readr::write_excel_csv(x, path, na = "")
   invisible(path)
@@ -82,4 +89,5 @@ save_rds_safe <- function(x, path) {
   invisible(path)
 }
 
+# Load functions shared by all analysis stages.
 source(file.path(ANALYSIS_DIR, "01_helpers.R"), local = FALSE)

@@ -1,3 +1,4 @@
+# Run the complete public workflow in manuscript order.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 repo_root <- dirname(normalizePath(this_file, mustWork = TRUE))
@@ -5,6 +6,7 @@ analysis_dir <- file.path(repo_root, "R")
 rscript <- Sys.which("Rscript")
 if (!nzchar(rscript)) stop("Rscript is not available on PATH")
 
+# Figures 1-2 and the graphical abstract are intentionally outside this release.
 pipeline <- c(
   "02_prepare_data.R",
   "03_fit_som_ensemble.R",
@@ -16,6 +18,7 @@ pipeline <- c(
   "09_make_figures.R"
 )
 
+# Stop immediately if any analytical stage fails.
 for (script in pipeline) {
   path <- file.path(analysis_dir, script)
   message("\n==> ", script)

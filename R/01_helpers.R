@@ -1,8 +1,10 @@
+# Shared validation and preprocessing helpers --------------------------------
 assert_packages <- function(packages) {
   missing <- packages[!vapply(packages, requireNamespace, logical(1), quietly = TRUE)]
   if (length(missing)) stop("Missing R packages: ", paste(missing, collapse = ", "))
 }
 
+# Estimate transformations from training data only.
 transform_fit <- function(data, vars = VARS, log_vars = intersect(LOG_VARS, vars)) {
   x <- as.data.frame(data[, vars, drop = FALSE])
   for (v in log_vars) {
@@ -24,6 +26,7 @@ transform_apply <- function(data, fit) {
   out
 }
 
+# Projection, SOM diagnostics and partition helpers ---------------------------
 nearest_centroid <- function(x, centers) {
   d2 <- outer(rowSums(x^2), rowSums(centers^2), "+") - 2 * tcrossprod(x, centers)
   max.col(-d2, ties.method = "first")
@@ -67,6 +70,7 @@ partition_som <- function(model, k, x_target = NULL) {
   code_groups[nearest_units(x_target, model$codes[[1]])$unit]
 }
 
+# Agreement, consensus and uncertainty metrics -------------------------------
 entropy <- function(p) {
   p <- p[is.finite(p) & p > 0]
   if (!length(p)) return(NA_real_)
@@ -147,6 +151,7 @@ clusterwise_jaccard <- function(reference, candidate) {
   data.frame(cluster = ref_groups, jaccard = values)
 }
 
+# Auxiliary internal-validity indices; these are not treated as ecological truth.
 validity_metrics <- function(x, labels) {
   labels <- as.integer(factor(labels))
   k <- length(unique(labels)); n <- nrow(x)
@@ -170,6 +175,7 @@ validity_metrics <- function(x, labels) {
   data.frame(silhouette = sil, calinski_harabasz = ch, davies_bouldin = mean(ratios))
 }
 
+# Resample campaign-specific station blocks to preserve the observation hierarchy.
 stratified_block_sample <- function(data, fraction, seed) {
   set.seed(seed)
   sampled <- data %>%
@@ -180,6 +186,7 @@ stratified_block_sample <- function(data, fraction, seed) {
   which(data$block_id %in% sampled$block_id)
 }
 
+# Fit each comparison model on the training matrix and assign target samples.
 fit_kmeans_predict <- function(x_train, x_target, k, seed) {
   set.seed(seed)
   fit <- kmeans(x_train, centers = k, nstart = 50, iter.max = 200)
@@ -201,6 +208,7 @@ fit_gmm_predict <- function(x_train, x_target, k) {
   }, error = function(e) list(labels = rep(NA_integer_, nrow(x_target)), failure = conditionMessage(e), model_name = NA_character_))
 }
 
+# Apply the prespecified clusterwise Jaccard interpretation thresholds.
 stability_class <- function(jaccard) {
   cut(jaccard, breaks = c(-Inf, 0.60, 0.75, Inf), labels = c("fragile", "uncertain", "stable"), right = FALSE)
 }

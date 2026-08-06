@@ -1,3 +1,4 @@
+# Build the analytical cohorts and the transformed primary feature matrix.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -5,6 +6,7 @@ source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.
 assert_packages(c("jsonlite", "kohonen", "mclust", "cluster"))
 if (!file.exists(DATA_FILE)) stop("Analysis-ready input is unavailable: ", DATA_FILE)
 
+# Read the public event-level snapshot and verify its required schema.
 raw <- readr::read_csv(DATA_FILE, show_col_types = FALSE)
 required <- c(
   "event_id", "campaign", "block_id", VARS
@@ -26,6 +28,7 @@ if (anyDuplicated(data$record_id) || anyDuplicated(data$sampling_event_id)) {
 }
 if (any(is.na(data$campaign))) stop("Unexpected campaign label")
 
+# Recalculate all cohort sizes reported in the manuscript.
 counts <- c(
   all_surface = nrow(data),
   core9 = sum(complete.cases(data[, VARS])),
@@ -38,6 +41,7 @@ if (!identical(as.integer(counts[names(EXPECTED_COUNTS)]), as.integer(EXPECTED_C
   stop("Frozen cohort counts changed: ", paste(names(counts), counts, collapse = "; "))
 }
 
+# Keep broader coverage cohorts separate from the complete nine-variable matrix.
 cohorts <- list(
   all_surface = data,
   core9 = data[complete.cases(data[, VARS]), ],
@@ -47,6 +51,7 @@ cohorts <- list(
   partial5 = data[rowSums(!is.na(data[, VARS])) >= 5, ]
 )
 
+# Apply log10 transformations where specified, followed by z-standardisation.
 fit <- transform_fit(cohorts$core9)
 x <- transform_apply(cohorts$core9, fit)
 if (any(!is.finite(x))) stop("Primary transformed matrix contains non-finite values")
@@ -65,6 +70,7 @@ manifest <- list(
 save_rds_safe(list(data = data, cohorts = cohorts, transform = fit, x = x, manifest = manifest), file.path(RESULT_DIR, "prepared_data.rds"))
 jsonlite::write_json(manifest, file.path(RESULT_DIR, "input_manifest.json"), auto_unbox = TRUE, pretty = TRUE)
 
+# Export the cohort audit and the variable/transform table.
 count_table <- bind_rows(lapply(names(cohorts), function(nm) {
   cohorts[[nm]] %>% dplyr::count(campaign, name = "n") %>% mutate(cohort = nm, .before = 1)
 }))

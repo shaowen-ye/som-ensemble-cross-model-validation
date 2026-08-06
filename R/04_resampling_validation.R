@@ -1,3 +1,4 @@
+# Compare SOM, K-means, Ward.D2 and GMM under identical grouped resamples.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -11,6 +12,7 @@ if (!is.finite(n_resample) || n_resample < 1L || n_resample > N_RESAMPLE) stop("
 seeds <- RESAMPLE_SEEDS[seq_len(n_resample)]
 methods <- c("SOM", "K-means", "Ward.D2", "GMM")
 
+# Store full-sample predictions from every resampling replicate and method.
 assignments <- setNames(lapply(methods, function(method) {
   setNames(lapply(K_VALUES, function(k) matrix(NA_integer_, n, n_resample)), paste0("k", K_VALUES))
 }), methods)
@@ -21,6 +23,7 @@ gmm_rows <- list()
 failure_counter <- 0L
 gmm_counter <- 0L
 
+# Draw 80% of campaign-specific station blocks and refit all four model families.
 for (b in seq_len(n_resample)) {
   train_idx <- stratified_block_sample(data, RESAMPLE_FRACTION, seeds[b])
   train <- data[train_idx, , drop = FALSE]
@@ -85,6 +88,7 @@ for (b in seq_len(n_resample)) {
   if (b %% 5L == 0L || b == n_resample) message("Grouped resampling: ", b, "/", n_resample)
 }
 
+# Derive method-specific consensus partitions, stability and sample uncertainty.
 consensus <- setNames(vector("list", length(methods)), methods)
 sample_rows <- list()
 stability_rows <- list()
@@ -141,6 +145,7 @@ for (method in methods) {
   }
 }
 
+# Quantify agreement across model families without constructing a ranking score.
 cross_model_rows <- list()
 counter <- 0L
 for (k in K_VALUES) {
@@ -173,6 +178,7 @@ resampling <- list(
   settings = list(n_resample = n_resample, fraction = RESAMPLE_FRACTION, seeds = seeds)
 )
 
+# Preserve failures and GMM covariance selections instead of silently dropping them.
 suffix <- if (n_resample == N_RESAMPLE) "200" else paste0("test", n_resample)
 save_rds_safe(resampling, file.path(MODEL_DIR, paste0("cross_model_resampling_", suffix, ".rds")))
 write_csv_safe(resampling$resample_manifest, file.path(TABLE_DIR, paste0("TableS_resample_manifest_", suffix, ".csv")))

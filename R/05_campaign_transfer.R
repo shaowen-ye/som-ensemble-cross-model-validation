@@ -1,3 +1,4 @@
+# Evaluate leave-one-campaign-out transfer for each model family and k.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -12,6 +13,7 @@ resampling_file <- Sys.getenv(
 if (!file.exists(resampling_file)) stop("Resampling result is unavailable: ", resampling_file)
 resampling <- readRDS(resampling_file)
 
+# Compare held-out distances with the within-training cluster scale.
 centroid_distance_ratio <- function(x_train, x_test, train_labels, test_labels) {
   groups <- sort(unique(train_labels))
   centers <- do.call(rbind, lapply(groups, function(g) colMeans(x_train[train_labels == g, , drop = FALSE])))
@@ -25,6 +27,7 @@ centroid_distance_ratio <- function(x_train, x_test, train_labels, test_labels) 
   median(test_distance, na.rm = TRUE) / median(train_distance, na.rm = TRUE)
 }
 
+# Estimate all preprocessing parameters from the retained campaigns only.
 rows <- list(); failures <- list(); counter <- 0L; failure_counter <- 0L
 for (campaign_out in CAMPAIGNS) {
   train_idx <- data$campaign != campaign_out
@@ -124,6 +127,7 @@ for (campaign_out in CAMPAIGNS) {
   message("Campaign transfer completed: ", campaign_out)
 }
 
+# Summarise transfer agreement and domain shift while retaining failed fits.
 transfer <- bind_rows(rows)
 failure_table <- if (length(failures)) bind_rows(failures) else data.frame(held_out_campaign = character(), method = character(), repeat_id = integer(), k = integer(), message = character())
 summary <- transfer %>%
@@ -139,6 +143,7 @@ summary <- transfer %>%
   )
 
 save_rds_safe(list(raw = transfer, summary = summary, failures = failure_table), file.path(MODEL_DIR, "campaign_transfer.rds"))
+# Export detailed and manuscript-level transfer results.
 write_csv_safe(transfer, file.path(TABLE_DIR, "TableS_campaign_transfer_all.csv"))
 write_csv_safe(summary, file.path(TABLE_DIR, "Table4_campaign_transfer_summary.csv"))
 write_csv_safe(failure_table, file.path(TABLE_DIR, "TableS_campaign_transfer_failures.csv"))

@@ -1,3 +1,4 @@
+# Convert model objects into the core manuscript and supplementary result tables.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -13,6 +14,7 @@ gradient <- readRDS(file.path(MODEL_DIR, "continuous_gradient_robustness.rds"))
 methods <- c("SOM", "K-means", "Ward.D2", "GMM")
 method_order <- setNames(seq_along(methods), methods)
 
+# Summarise resampling stability and internal validity across all k values.
 stability_summary <- resampling$replicate_stability %>%
   group_by(method, k) %>%
   summarise(
@@ -36,6 +38,7 @@ all_stability <- stability_summary %>%
   arrange(method_order[method], k)
 write_csv_safe(all_stability, file.path(TABLE_DIR, "TableS_all_k_stability_and_validity.csv"))
 
+# Extract the focused k = 2 and k = 3 comparison reported in the main text.
 table3 <- all_stability %>%
   filter(k %in% c(2L, 3L)) %>%
   transmute(
@@ -48,6 +51,7 @@ table3 <- all_stability %>%
   )
 write_csv_safe(table3, file.path(TABLE_DIR, "Table3_resampling_stability_k2_k3.csv"))
 
+# Document the controlled settings shared by the four model families.
 table2 <- data.frame(
   Method = methods,
   Representation = c("Hexagonal SOM codebook", "Euclidean centroids", "Ward.D2 hierarchy", "Gaussian mixture"),
@@ -59,6 +63,7 @@ table2 <- data.frame(
 )
 write_csv_safe(table2, file.path(TABLE_DIR, "Table2_controlled_model_comparison.csv"))
 
+# Assemble compact transfer and sensitivity tables for the manuscript.
 table4a <- transfer$summary %>%
   filter(k == 3L) %>%
   mutate(method_rank = method_order[method]) %>%
@@ -142,6 +147,7 @@ table4c <- sensitivity$exclusion %>%
   )
 write_csv_safe(table4c, file.path(TABLE_DIR, "Table4C_source_uncertainty_exclusion_k3.csv"))
 
+# Export cross-model agreement summaries and machine-readable result facts.
 cross_summary <- resampling$cross_model_agreement %>%
   group_by(k) %>%
   summarise(

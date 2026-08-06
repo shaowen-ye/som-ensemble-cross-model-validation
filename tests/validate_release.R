@@ -1,3 +1,4 @@
+# Validate the public data boundary, analytical cohort counts and released outputs.
 data_file <- file.path("data", "analysis_events.csv")
 if (!file.exists(data_file)) stop("Missing public analysis data")
 
@@ -18,6 +19,7 @@ if (!identical(sort(unique(data$campaign)), sort(c("2012-2013", "2017-2018", "20
 field4 <- c("pH", "WT_C", "DO_mgL", "Cond_uScm")
 nutrient4 <- c("TN_mgL", "NO3_mgL", "TP_mgL", "SRP_mgL")
 nutrient_chla5 <- c("Chla_ugL", nutrient4)
+# Recalculate the six sample-size statements used in the manuscript.
 counts <- c(
   all_events = nrow(data),
   core9 = sum(complete.cases(data[, variables])),
@@ -34,6 +36,7 @@ if (any(vapply(data[log_variables], function(x) any(x <= 0, na.rm = TRUE), logic
   stop("Non-positive observations found in a log10 variable")
 }
 
+# Confirm that the repository contains the selected core result tables.
 tracked_outputs <- c(
   file.path("outputs", "figures", "main", paste0("Fig", 3:6, c(
     "_som_components_and_topology.png",
@@ -53,6 +56,7 @@ if (length(missing_outputs)) stop("Missing released outputs: ", paste(missing_ou
 
 all_files <- list.files(".", recursive = TRUE, all.files = TRUE, full.names = TRUE)
 all_files <- all_files[file.info(all_files)$isdir %in% FALSE]
+# Prevent excluded cartographic and graphical-abstract assets from entering the release.
 forbidden_names <- c("Fig1", "Fig2", "Graphical_Abstract", "study_map", "standard_map")
 if (any(vapply(forbidden_names, function(x) any(grepl(x, all_files, fixed = TRUE)), logical(1)))) {
   stop("Excluded figure or map assets found in public release")

@@ -1,3 +1,4 @@
+# Test whether continuous multivariate geometry persists across resamples and SOMs.
 args <- commandArgs(trailingOnly = FALSE)
 this_file <- sub("^--file=", "", grep("^--file=", args, value = TRUE)[1])
 source(file.path(dirname(normalizePath(this_file, mustWork = TRUE)), "00_config.R"))
@@ -7,10 +8,12 @@ ensemble <- readRDS(file.path(MODEL_DIR, "som_ensemble_250.rds"))
 data <- prepared$cohorts$core9
 x_full <- prepared$x
 
+# Use the full-data PCA geometry as the alignment reference.
 full_pca <- prcomp(x_full, center = FALSE, scale. = FALSE)
 reference <- scale(full_pca$x[, 1:2], center = TRUE, scale = FALSE)
 reference_dist <- as.numeric(dist(reference))
 
+# Remove arbitrary rotations and reflections using orthogonal Procrustes alignment.
 align_scores <- function(target, reference) {
   target <- scale(target, center = TRUE, scale = FALSE)
   cross <- crossprod(target, reference)
@@ -27,6 +30,7 @@ align_scores <- function(target, reference) {
   )
 }
 
+# Re-estimate PCA geometry under the same grouped resampling design.
 pca_rows <- vector("list", N_RESAMPLE)
 loading_rows <- vector("list", N_RESAMPLE)
 for (b in seq_len(N_RESAMPLE)) {
@@ -61,6 +65,7 @@ for (b in seq_len(N_RESAMPLE)) {
   )
 }
 
+# Compare each SOM representation with distances and variable relations in input space.
 input_dist <- as.numeric(dist(x_full))
 input_relation <- cor(x_full)
 relation_index <- upper.tri(input_relation)
@@ -114,6 +119,7 @@ summary <- data.frame(
   )
 )
 
+# Save detailed diagnostics and compact summaries used in the manuscript.
 gradient <- list(
   full_pca = full_pca,
   pca_stability = pca_stability,
