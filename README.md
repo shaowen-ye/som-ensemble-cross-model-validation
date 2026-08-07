@@ -1,4 +1,4 @@
-<img width="432" height="28" alt="image" src="https://github.com/user-attachments/assets/d5e636c3-0756-4b90-9f19-7ad3c3e5575f" /># SOM ensemble and cross-model validation
+# SOM ensemble and cross-model validation
 
 This repository provides the analysis-ready data and R workflow associated with the manuscript:
 
