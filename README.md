@@ -1,9 +1,9 @@
-# SOM ensemble and cross-model validation
+<img width="432" height="28" alt="image" src="https://github.com/user-attachments/assets/d5e636c3-0756-4b90-9f19-7ad3c3e5575f" /># SOM ensemble and cross-model validation
 
 This repository provides the analysis-ready data and R workflow associated with the manuscript:
 
-> **Ensemble and cross-model validation of self-organizing maps reveals persistent gradients and fragile clusters in environmental monitoring data**
-> Shaowen Ye et al. — manuscript prepared for *Ecological Informatics*
+> **When are self-organizing map classes defensible? An ensemble and cross-model validation workflow for environmental monitoring data**
+> — manuscript prepared by Shaowen Ye et al. 
 
 The workflow evaluates whether self-organizing map (SOM) structures persist across map sizes, random initializations, grouped resampling, alternative clustering algorithms, monitoring campaigns, variable modules, and missing-data conditions. It is designed to distinguish reproducible continuous gradients from potentially fragile hard partitions.
 
