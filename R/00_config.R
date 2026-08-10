@@ -68,13 +68,32 @@ RESAMPLE_FRACTION <- 0.80
 RESAMPLE_SEEDS <- 71001 + seq_len(N_RESAMPLE)
 TRANSFER_SEEDS <- 81001:81010
 
+# Quality-control threshold applied in 02_prepare_data.R. Chlorophyll-a readings
+# below this value are two orders of magnitude under any routine determination
+# limit and are treated as invalid rather than as extremely low concentrations.
+# The published data file keeps the original reading; only the analysis excludes it.
+CHLA_MIN_VALID <- 0.01
+
+# Fixed grid used in 04b_fixed_grid_som.R for the like-for-like stability
+# comparison against the baselines, which have no grid hyperparameter. 8x6 has
+# the highest ten-neighbour preservation in the grid sweep. The initialisation
+# seed is held constant so that the remaining variation comes from sample
+# composition alone, as it does for the deterministic baselines.
+FIXED_GRID <- c(xdim = 8L, ydim = 6L)
+FIXED_GRID_SEED <- 91001L
+
+# Outlier sensitivity in 06b_outlier_sensitivity.R: events whose standardised
+# value on any variable exceeds this magnitude are dropped to test whether heavy
+# tails drive the fragile-cluster result.
+OUTLIER_Z_THRESHOLD <- 4
+
 # Guard against accidental changes in the released analytical cohorts.
 EXPECTED_COUNTS <- c(
   all_surface = 514L,
-  core9 = 391L,
+  core9 = 390L,
   field4 = 440L,
   nutrient4 = 459L,
-  nutrient_chla5 = 439L,
+  nutrient_chla5 = 438L,
   partial5 = 454L
 )
 

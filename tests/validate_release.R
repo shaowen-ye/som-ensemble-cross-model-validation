@@ -28,7 +28,19 @@ counts <- c(
   nutrient_chla5 = sum(complete.cases(data[, nutrient_chla5])),
   partial5 = sum(rowSums(!is.na(data[, variables])) >= 5)
 )
+# The published file keeps every original reading, so core9/nutrient_chla5 are
+# counted here before the analysis-time chlorophyll-a quality-control rule.
 expected_counts <- c(514L, 391L, 440L, 459L, 439L, 454L)
+chla_invalid <- sum(data$Chla_ugL < 0.01, na.rm = TRUE)
+if (chla_invalid != 1L) stop("Unexpected number of sub-detection chlorophyll-a readings")
+# After the rule is applied the analysis operates on 390 and 438 events.
+analysis_data <- data
+analysis_data$Chla_ugL[analysis_data$Chla_ugL < 0.01] <- NA
+analysis_counts <- c(
+  core9 = sum(complete.cases(analysis_data[, variables])),
+  nutrient_chla5 = sum(complete.cases(analysis_data[, nutrient_chla5]))
+)
+if (!identical(as.integer(analysis_counts), c(390L, 438L))) stop("Analysis cohort counts changed")
 if (!identical(as.integer(counts), expected_counts)) stop("Cohort counts changed")
 
 log_variables <- c("Chla_ugL", "TN_mgL", "NO3_mgL", "TP_mgL", "SRP_mgL")

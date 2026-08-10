@@ -158,7 +158,7 @@ cross_summary <- resampling$cross_model_agreement %>%
 write_csv_safe(cross_summary, file.path(TABLE_DIR, "TableS_cross_model_summary_by_k.csv"))
 
 facts <- list(
-  title = "Ensemble and cross-model validation of self-organizing maps reveals persistent gradients and fragile clusters in environmental monitoring data",
+  title = "When are self-organizing map classes defensible? An ensemble and cross-model validation workflow for environmental monitoring data",
   counts = as.list(EXPECTED_COUNTS),
   campaigns_primary = as.list(table(prepared$cohorts$core9$campaign)),
   models = list(som_ensemble = 250L, grouped_resamples = 200L, som_sensitivity = 250L, campaign_transfer_rows = nrow(transfer$raw)),

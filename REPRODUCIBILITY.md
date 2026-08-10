@@ -24,7 +24,8 @@ This repository is a public, self-contained release of the R workflow used for t
 
 ## Validation completed for this release
 
-- all 514/391/440/459/439/454 cohort counts were reproduced;
+- all 514/390/440/459/438/454 analytical cohort counts were reproduced, after the
+  chlorophyll-a quality-control rule described in `README.md`;
 - the 250 SOM objects and their `k = 2–8` assignments matched the manuscript analysis objects;
 - grouped resampling indices and sample-level consensus results matched;
 - continuous-gradient summaries matched;

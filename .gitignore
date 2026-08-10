@@ -23,6 +23,15 @@ outputs/tables/*
 !outputs/tables/TableS_sensitivity_failures.csv
 !outputs/tables/TableS_sensitivity_to_primary_consensus.csv
 !outputs/tables/TableS_som_ensemble_metrics.csv
+!outputs/tables/TableS_qc_actions.csv
+!outputs/tables/TableS_fixed_grid_stability_200.csv
+!outputs/tables/TableS_fixed_grid_clusterwise_jaccard_200.csv
+!outputs/tables/TableS_fixed_grid_internal_validity_200.csv
+!outputs/tables/TableS_fixed_grid_failures_200.csv
+!outputs/tables/TableS_outlier_sensitivity_stability_200.csv
+!outputs/tables/TableS_outlier_sensitivity_clusterwise_jaccard_200.csv
+!outputs/tables/TableS_outlier_sensitivity_failures_200.csv
+!outputs/tables/TableS_outlier_dropped_events.csv
 outputs/figures/**/*.pdf
 outputs/figures/**/*.svg
 outputs/figures/**/*.tiff

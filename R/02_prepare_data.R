@@ -28,6 +28,28 @@ if (anyDuplicated(data$record_id) || anyDuplicated(data$sampling_event_id)) {
 }
 if (any(is.na(data$campaign))) stop("Unexpected campaign label")
 
+# Quality control. The published data file is never edited; invalid readings are
+# set to missing here so that the rule is explicit, versioned and reproducible.
+# Chlorophyll-a below CHLA_MIN_VALID is two orders of magnitude under any routine
+# determination limit and cannot represent a real measurement.
+chla_flagged <- which(!is.na(data$Chla_ugL) & data$Chla_ugL < CHLA_MIN_VALID)
+qc_actions <- data.frame(
+  rule = character(0), event_id = character(0), campaign = character(0),
+  variable = character(0), original_value = numeric(0), action = character(0)
+)
+if (length(chla_flagged)) {
+  qc_actions <- data.frame(
+    rule = sprintf("Chla_ugL < %g ug/L", CHLA_MIN_VALID),
+    event_id = data$sampling_event_id[chla_flagged],
+    campaign = as.character(data$campaign[chla_flagged]),
+    variable = "Chla_ugL",
+    original_value = data$Chla_ugL[chla_flagged],
+    action = "set to NA"
+  )
+  data$Chla_ugL[chla_flagged] <- NA_real_
+}
+write_csv_safe(qc_actions, file.path(TABLE_DIR, "TableS_qc_actions.csv"))
+
 # Recalculate all cohort sizes reported in the manuscript.
 counts <- c(
   all_surface = nrow(data),

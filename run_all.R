@@ -11,8 +11,10 @@ pipeline <- c(
   "02_prepare_data.R",
   "03_fit_som_ensemble.R",
   "04_resampling_validation.R",
+  "04b_fixed_grid_som.R",
   "05_campaign_transfer.R",
   "06_sensitivity.R",
+  "06b_outlier_sensitivity.R",
   "07_gradient_robustness.R",
   "08_summarise_results.R",
   "09_make_figures.R"

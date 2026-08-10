@@ -4,10 +4,10 @@
   "input_columns": 12,
   "counts": {
     "all_surface": 514,
-    "core9": 391,
+    "core9": 390,
     "field4": 440,
     "nutrient4": 459,
-    "nutrient_chla5": 439,
+    "nutrient_chla5": 438,
     "partial5": 454
   },
   "variables": ["pH", "WT_C", "DO_mgL", "Cond_uScm", "Chla_ugL", "TN_mgL", "NO3_mgL", "TP_mgL", "SRP_mgL"],

@@ -19,7 +19,9 @@ The workflow evaluates whether self-organizing map (SOM) structures persist acro
 
 ## Analysis design
 
-The primary analysis uses 391 events with complete observations for nine indicators. The public event table retains 514 events and their original missing-data structure so that the variable-module and native-missingness sensitivity analyses can be reproduced from the same input.
+The primary analysis uses 390 events with complete observations for nine indicators. The public event table retains all 514 events and their original missing-data structure so that the variable-module and native-missingness sensitivity analyses can be reproduced from the same input.
+
+One chlorophyll-a reading of 0.00094 µg/L is kept in the published data file but is set to missing at analysis time by an explicit quality-control rule in `R/02_prepare_data.R` (values below 0.01 µg/L), because it lies two orders of magnitude below any routine determination limit. The rule and the affected record are written to `outputs/tables/TableS_qc_actions.csv`, so the exclusion is auditable and the raw file stays unedited. Analytical cohorts are therefore 514 / 390 / 440 / 459 / 438 / 454.
 
 The public workflow includes:
 
@@ -30,7 +32,12 @@ The public workflow includes:
 5. 200 grouped resamples using the same training blocks for all four model families;
 6. consensus support, entropy, ARI, AMI, clusterwise Jaccard, and auxiliary internal indices;
 7. leave-one-campaign-out transfer and prespecified sensitivity analyses;
-8. scripted generation of associated analytical figures and key statistical tables.
+8. a like-for-like control that refits the SOM arm with the grid fixed at 8x6 and the
+   initialisation seed held constant, on the identical resampling indices, so that the
+   comparison with the baselines is not confounded by the grid sweep;
+9. a heavy-tail sensitivity that repeats the whole four-model resampling after removing
+   every event with a standardised value beyond four on any variable;
+10. scripted generation of associated analytical figures and key statistical tables.
 
 Transformations and scaling in resampling and transfer analyses are estimated from training observations only.
 
