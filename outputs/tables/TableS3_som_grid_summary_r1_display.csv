@@ -1,0 +1,6 @@
+﻿"SOM grid","Models","Quantisation error, mean squared distance","Quantisation error, mean Euclidean distance","Topographic error","10-neighbour preservation","Empty nodes"
+"5x5",50,"2.134","1.315","0.328","0.451",0
+"7x5",50,"1.675","1.161","0.301","0.529",0
+"8x6",50,"1.363","1.031","0.272","0.550",1
+"10x7",50,"1.045","0.897","0.258","0.550",2
+"12x8",50,"0.817","0.790","0.213","0.541",7

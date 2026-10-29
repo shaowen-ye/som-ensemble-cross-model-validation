@@ -98,6 +98,16 @@ EXPECTED_COUNTS <- c(
 )
 
 # Create parent directories before writing reproducible outputs.
+# First-round revision checks (scripts 10-14, October 2026). Every SOM
+# sensitivity ensemble uses the five grids crossed with the first ten SOM seeds,
+# as in 06_sensitivity.R. Matched-size omission replicates remove randomly chosen
+# site-within-survey blocks from all surveys until the omitted event count is
+# closest to the size of one held-out survey.
+SENSITIVITY_SEEDS <- SOM_SEEDS[1:10]
+MATCHED_OMISSION_REPLICATES <- 50L
+MATCHED_OMISSION_SEEDS <- 95000L + seq_len(MATCHED_OMISSION_REPLICATES)
+EXCLUSION_OMISSION_SEEDS <- 96000L + seq_len(MATCHED_OMISSION_REPLICATES)
+
 write_csv_safe <- function(x, path) {
   readr::write_excel_csv(x, path, na = "")
   invisible(path)

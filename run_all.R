@@ -17,7 +17,14 @@ pipeline <- c(
   "06b_outlier_sensitivity.R",
   "07_gradient_robustness.R",
   "08_summarise_results.R",
-  "09_make_figures.R"
+  # First-round revision checks; the figures below read their outputs.
+  "10_r1_som_topology.R",
+  "11_r1_partition_stages.R",
+  "12_r1_metric_checks.R",
+  "13_r1_transfer_calibration.R",
+  "14_r1_sensitivity_like_for_like.R",
+  "09_make_figures.R",
+  "15_r1_make_tables.R"
 )
 
 # Stop immediately if any analytical stage fails.

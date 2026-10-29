@@ -1,0 +1,8 @@
+﻿"k","order_by_median_entropy"
+2,"SOM > K-means > GMM > Ward.D2"
+3,"SOM > GMM > Ward.D2 > K-means"
+4,"SOM > Ward.D2 > GMM > K-means"
+5,"SOM > GMM > Ward.D2 > K-means"
+6,"SOM > GMM > Ward.D2 > K-means"
+7,"SOM > GMM > K-means > Ward.D2"
+8,"SOM > GMM > Ward.D2 > K-means"

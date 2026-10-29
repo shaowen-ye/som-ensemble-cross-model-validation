@@ -33,3 +33,18 @@ This repository is a public, self-contained release of the R workflow used for t
 - the tracked PNG files are the exact manuscript versions of Figs. 3–6 and Figs. S1–S5.
 
 The complete workflow records, rather than silently removes, model failures. No failures occurred in the validated 200-resample run or in the leave-one-campaign-out transfer analysis.
+
+## First-round revision (version 1.2.0)
+
+- Scripts `10_r1_som_topology.R` to `15_r1_make_tables.R` were added and the figure script was
+  extended (Fig. 4D legend, Fig. 5D medians and means, Fig. 6 with matched references, Figs S6-S7).
+- Refitting the 200 grouped-resample SOMs reproduces the stored partitions at every k
+  (`TableS_r1_resample_som_refit_check.csv`), and refitting the leave-one-survey-out models
+  reproduces the stored transfer results exactly.
+- On the 390 complete events the native missing-distance SOM reproduces all 50 corresponding
+  primary maps, with identical partitions at k = 2-8 (`TableS_r1_missing_distance_identity_check.csv`).
+- Transfer counts use only held-out sets whose own reference contains more than one cluster;
+  `tests/validate_release.R` recomputes them from `TableS_r1_transfer_vs_matched_omission.csv`.
+- Random block omissions list blocks in order of first appearance, and every jittered plotting layer
+  has a fixed seed, so the revision tables, `results_facts_r1.json` and all figures are byte-identical
+  to those in the manuscript analysis directory (checked before release).

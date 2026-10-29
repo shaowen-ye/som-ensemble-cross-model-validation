@@ -1,0 +1,1 @@
+Leave-one-survey-out agreement (coloured lines) compared with 50 random omissions of the same number of events (grey: 95% range; dashed: median) for every method and k. Open symbols mark combinations in which the method's own reference places all held-out events in one cluster, so that ARI can only be 0 or 1. The 2024–2025 survey contributes 16 events and is not interpreted.

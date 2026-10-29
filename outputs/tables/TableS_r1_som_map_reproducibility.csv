@@ -1,0 +1,23 @@
+﻿"design","comparison","grid","metric","pairs","median","lower_95","upper_95"
+"Full-data SOM ensemble","All pairs","All grids","Map-distance concordance",31125,0.5442726656230855,0.2968013658391327,0.830576518449298
+"Full-data SOM ensemble","Same-grid pairs","All grids","Map-distance concordance",6125,0.5821260786204655,0.3044228006337719,0.8620104770150735
+"Full-data SOM ensemble","Same-grid pairs","All grids","Map-neighbour overlap",6125,0.45959975046516593,0.3776007248149877,0.6047092212148204
+"Full-data SOM ensemble","Same-grid pairs","All grids","Map-neighbour overlap, chance",6125,0.06250033961275858,0.0291236774221133,0.12751789801301824
+"Grouped-resample SOMs","All pairs","All grids","Map-distance concordance",19900,0.5317167830265822,0.29331069230123413,0.7847427723682772
+"Grouped-resample SOMs","Same-grid pairs","All grids","Map-distance concordance",3900,0.55469879827967306,0.29141116160619707,0.8010431689069847
+"Grouped-resample SOMs","Same-grid pairs","All grids","Map-neighbour overlap",3900,0.4371483396409122,0.37235993321531263,0.5372855679865758
+"Grouped-resample SOMs","Same-grid pairs","All grids","Map-neighbour overlap, chance",3900,0.06231177563762104,0.02899925310348911,0.12800772078300826
+"Grouped-resample SOMs","Single maps","All grids","Component-relation correlation",200,0.9670527670527672,0.925823680823681,0.9876640926640927
+"Grouped-resample PCA (two axes)","All pairs","All grids","Score-distance concordance",19900,0.995283383844012,0.9824218214121536,0.9988942874334712
+"Grouped-resample PCA quantised to the SOM grid","All pairs","All grids","Map-distance concordance",19900,0.9394450376451533,0.8833819978172232,0.980563644882378
+"Grouped-resample PCA quantised to the SOM grid","Same-grid pairs","All grids","Map-distance concordance",3900,0.9676175255802508,0.9239012626460602,0.9861047907816571
+"Full-data SOM ensemble","Same-grid pairs","10x7","Map-distance concordance",1225,0.5074676548089347,0.2660614794233826,0.850158498788805
+"Full-data SOM ensemble","Same-grid pairs","10x7","Map-neighbour overlap",1225,0.4439506238768745,0.38886654027768564,0.5256346681160571
+"Full-data SOM ensemble","Same-grid pairs","12x8","Map-distance concordance",1225,0.5278996773557024,0.2925824950675573,0.8760727667025131
+"Full-data SOM ensemble","Same-grid pairs","12x8","Map-neighbour overlap",1225,0.4657810379795184,0.4170128385669505,0.5406436823206867
+"Full-data SOM ensemble","Same-grid pairs","5x5","Map-distance concordance",1225,0.5335208673761986,0.32220079195026685,0.8065966052861427
+"Full-data SOM ensemble","Same-grid pairs","5x5","Map-neighbour overlap",1225,0.4578630701575808,0.3516339223544423,0.6334893500860268
+"Full-data SOM ensemble","Same-grid pairs","7x5","Map-distance concordance",1225,0.7070520879622394,0.3720837549290169,0.8587162935314618
+"Full-data SOM ensemble","Same-grid pairs","7x5","Map-neighbour overlap",1225,0.4685316425855423,0.37464306716891493,0.6282876889257177
+"Full-data SOM ensemble","Same-grid pairs","8x6","Map-distance concordance",1225,0.5335146340116219,0.3159644545103513,0.8870942464083367
+"Full-data SOM ensemble","Same-grid pairs","8x6","Map-neighbour overlap",1225,0.4639654794834808,0.393371993648636,0.6352943096119708
